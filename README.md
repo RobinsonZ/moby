@@ -50,13 +50,12 @@ This is used for defining the geofence that the guidance system will stay within
 
 ```yaml
 geofence:
-	lat:
-  	min: 45.5139707
-  	max: 45.5139901
+  lat:
+    min: 45.5139707
+    max: 45.5139901
   lon:
     min: -122.6800915
     max: -122.6899015
- 
 ```
 
 #### Secondary Geofence Configuration (`secondary_geofence/`)
@@ -65,9 +64,9 @@ Moby actually has two geofences---one that the system will remain within, but ma
 
 ```yaml
 secondary_geofence:
-	lat:
-  	min: 45.5139707
-  	max: 45.5139901
+  lat:
+    min: 45.5139707
+    max: 45.5139901
   lon:
     min: -122.6800915
     max: -122.6899015
