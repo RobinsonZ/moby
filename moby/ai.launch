@@ -1,0 +1,30 @@
+<launch>
+  <machine name="base" address="mobybase.local" user="mobyb" env-loader="/opt/ros/kinetic/env.sh"/>
+  <machine name="pi" address="navio.local" user="pi" env-loader="/home/pi/catkin_ws/env.bash"/>
+  <machine name="pi_root" address="navio.local" user="root" env-loader="/home/pi/catkin_ws/env.bash"/>
+
+
+  <group ns="moby">
+    <rosparam>
+      geofence:
+        lat:
+          min: 45.5139707
+          max: 45.5139901
+        lon:
+          min: -122.6800915
+          max: -122.6899015
+    </rosparam>
+    
+    <node pkg="moby" type="barometer.py" name="baro" machine="pi" required="true" output="screen" cwd="node"/>
+    <node pkg="moby" type="gps.py" name="gps" machine="pi" required="true" output="screen" cwd="node"/>
+    <node pkg="moby" type="imu.py" name="imu" machine="pi" required="true" output="screen" cwd="node"/>
+    <!-- run the PWM node with sudo because you need that to access PWMs for whatever reason -->
+    <node pkg="moby" type="pwm.py" name="pwm_output" machine="pi_root" required="true" output="screen" cwd="node"/>
+    
+    <node pkg="moby" type="visualizer.py" name="visualizer" machine="base" required="true" output="screen" cwd="node"/>
+    
+    <!-- I'm running the guidance node on the base station so that if Moby loses connection
+    it should immediately stop since it's not getting data. We'll see if there's a performance impact.-->
+    <node pkg="moby" type="guidance.py" name="guidance" machine="base" required="true" output="screen" cwd="node"/>
+  </group>
+</launch>
